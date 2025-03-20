@@ -2,141 +2,302 @@
 
 {% block content %}
     <section class="section">
-        <div class="container">
-            <h1 class="title">RomM API Settings</h1>
-              <div class="card has-background-dark">                  
-                <div class="card-content">
-                  <!-- <p class="title">RomM API Settings</p> -->
-                  <form method="post" action="{{ url_for('config_romm_api_settings') }}">
-                  <div class="field">
-                    <label class="label">RomM API URL</label>
-                    <div class="control">
-                        <input class="input" type="text" placeholder="RomM API URL" name="romm_api_base_url" value="{{ config.get('romm_api_base_url', '') }}">
-                    </div>
-                  </div>
-                  
-                  <div class="field">
-                    <label class="label">Username</label>
-                    <div class="control">
-                        <input class="input" type="text" placeholder="Username" name="romm_username" value="{{ config.get('romm_username', '') }}">
-                    </div>
-                  </div>
+      
+        <div class="tabs is-centered is-medium">
+          <ul>
+            <!-- <li id="menu_description" class="config-menu is-active" onclick="menuAction('menu_description')">
+              <a>
+                <span class="icon is-small">
+                  <i class="fa-solid fa-circle-info"></i>
+                </span>
+                <span>Description</span>
+              </a>
+            </li> -->
+            <li id="menu_romMAPI" class="config-menu is-active" onclick="menuAction('menu_romMAPI')">
+              <a>
+                <span class="icon is-small">
+                  <i class="fa-solid fa-gears"></i>
+                </span>
+                <span>RomM API</span>
+              </a>
+            </li>
+            <li id="menu_platform_matching" class="config-menu" onclick="menuAction('menu_platform_matching')">
+              <a>
+                <span class="icon is-small">
+                  <i class="fa-solid fa-rectangle-list"></i>
+                </span>
+                <span>Platform matching</span>
+              </a>
+            </li>
+            <li id="menu_collection_sync" class="config-menu" onclick="menuAction('menu_collection_sync')">
+              <a>
+                <span class="icon is-small">
+                  <i class="fa-solid fa-rotate"></i>
+                </span>
+                <span>Collection Sync</span>
+              </a>
+            </li>            
+          </ul>
+          </div>
+        </div>
 
-                  <div class="field">
-                    <label class="label">Password</label>
-                    <div class="control">
-                        <input class="input" type="password" placeholder="Password" name="romm_password" value="{{ config.get('romm_password', '') }}">
-                    </div>
-                  </div>  
+        <!-- TEST START -->
+        <div id="content_description" class="container content collapse">
+          <h1 class="title">Description</h1>
+        </div>
 
+        <div id="content_romMAPI" class="container content collapse">
+          <h1 class="title">RomM Api Settings</h1>
+          <div class="notification is-info">            
+            <h2 class="has-text-black">In this Section enter your RomM Api Settings!</h2>
+            <p><b>RomM API URL: </b>RomM API Endpoint</p>
+            <p><b>RomM Username: </b>Your RomM Username</p>
+            <p><b>RomM Password: </b>Your RomM Password</p>
+            <h3 class="has-text-danger">This Settings must be taken to continue the Configuration!</h3>
+          </div>
+          <div class="card has-background-dark">                  
+            <div class="card-content">
+              <!-- <p class="title">RomM API Settings</p> -->
+              <form method="post" action="{{ url_for('config_romm_api_settings') }}">
+              <div class="field">
+                <label class="label">RomM API URL</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="RomM API URL" name="romm_api_base_url" value="{{ config.get('romm_api_base_url', '') }}">
+                </div>
+              </div>
+              
+              <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Username" name="romm_username" value="{{ config.get('romm_username', '') }}">
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                    <input class="input" type="password" placeholder="Password" name="romm_password" value="{{ config.get('romm_password', '') }}">
+                </div>
+              </div>  
+
+              <div class="control">
+                <button class="button is-primary" type="submit">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>          
+        </div>
+        <div class="grid">
+          <div class="cell">
+            <button class="button is-link is-medium btn-back" disabled>Back</button>
+          </div>
+          <div class="cell"></div>
+          <div class="cell">
+            <button class="button is-link is-medium btn-next" onclick="btn_next('menu_platform_matching', 'content_platform_matching')">Next</button>
+          </div>
+        </div>            
+      </div>
+
+        <div id="content_platform_matching" class="container content collapse">
+          <h1 class="title">Platform Matching</h1>
+          <div class="notification is-info">            
+            <h2 class="has-text-black">Now you have to configurate the Platform Matching</h2>
+            Enter your <strong>retrodeck rom path</strong> in 'Steamdeck System Path'.<br>
+            In the table below, you can see all the platforms from RomM for which you own games.  
+            "RomM Platform Name" refers to the platform name in RomM. Enter the corresponding folder of the platform under "Platform Folder Steamdeck".<br>
+            You have to save every Platform after enter the path.
+            
+            <h3 class="has-text-danger">These settings need to be configured so that the synchronization knows where to copy your games.</h3>
+          </div>
+          <div class="card has-background-dark">                  
+            <div class="card-content">
+              <!-- <p class="title">Platform Matching</p> -->
+              <div class="content">
+                <label class="label">Steamdeck System Path</label>
+                <form method="post" action="{{ url_for('config_steamdeck_platform_path') }}">
+                <div class="field is-grouped">                  
+                  <div class="control">
+                      <input class="input input-field" type="text" name="steamdeck_path" placeholder="retrodeck path" value="{{ config.get('steamdeck_retrodeck_path', '') }}">                      
+                  </div>
                   <div class="control">
                     <button class="button is-primary" type="submit">
-                      Save
+                      Set
                     </button>
                   </div>
+                </div>
                 </form>
               </div>
-            </div>
 
-                <h1 class="title custom-title">Sync Collections</h1>
-                <div class="card has-background-dark">                  
-                  <div class="card-content">
-                    <!-- <p class="title">Sync Collections</p> -->
-                    <form method="post" action="{{ url_for('config_collection_sync_settings') }}">
-                    <div class="field">                    
-                      <div class="list has-hoverable-list-items">
-                          {% for collection in collections %}
-                          <div class="list-item">     
-                              <input type="text" hidden name="collections_id" value="{{ collection.collections_id }}">       
-                              <input class="checkbox" type="checkbox" name="collection_sync_{{ collection.collections_id }}" value="{{ collection.collection_sync }}" {% if collection.collection_sync %}checked{% endif %} />            
-                              <div class="list-item-content">                                
-                                  <div class="list-item-title">{{ collection.name }}</div>
-                                  <div class="list-item-description"></div>
-                              </div>                            
-                          </div> 
-                          {% endfor %}                           
-                      </div>
-                    </div>
-                    
-                    <div class="control">
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>RomM Platform Name</th>                      
+                    <th>Platform Folder Steamdeck</th>                      
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for platform in platform_matching %}
+                  <form method="post" action="{{ url_for('config_platform_matching') }}">
+                  <tr>
+                    <th class="cell">{{ platform.romm_platform_id }}</th>                      
+                    <td class="cell">{{ platform.romm_platform_name }}</td>
+                    <td>
+                      <!-- <div class="select">
+                        <select value="{{ platform.steamdeck_platform_name }}">
+                          <option>psx</option>
+                          <option>ps2</option>
+                        </select>
+                      </div> -->
+                      <input type="text" hidden name="romm_platform_id" value="{{ platform.romm_platform_id }}">
+                      <input class="input input-field" type="text" name="steamdeck_platform_name" placeholder="steamdeck-platform" value="{{ platform.steamdeck_platform_name }}">
+                    </td>
+                    <td>
                       <button class="button is-primary" type="submit">
                         Save
                       </button>
-                    </div>
-                    </form>
-                  </div>
-                </div>
-                
-                <h1 class="title custom-title">Platform Matching</h1>
-                <div class="card has-background-dark">                  
-                  <div class="card-content">
-                    <!-- <p class="title">Platform Matching</p> -->
-                    <div class="content">
-                      <label class="label">Steamdeck System Path</label>
-                      <form method="post" action="{{ url_for('config_steamdeck_platform_path') }}">
-                      <div class="field is-grouped">                  
-                        <div class="control">
-                            <input class="input input-field" type="text" name="steamdeck_path" placeholder="retrodeck path" value="{{ config.get('steamdeck_retrodeck_path', '') }}">                      
-                        </div>
-                        <div class="control">
-                          <button class="button is-primary" type="submit">
-                            Set
-                          </button>
-                        </div>
-                      </div>
-                      </form>
-                    </div>
-
-                    <table class="table is-fullwidth">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>RomM Platform Name</th>                      
-                          <th>Platform Folder Steamdeck</th>                      
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for platform in platform_matching %}
-                        <form method="post" action="{{ url_for('config_platform_matching') }}">
-                        <tr>
-                          <th class="cell">{{ platform.romm_platform_id }}</th>                      
-                          <td class="cell">{{ platform.romm_platform_name }}</td>
-                          <td>
-                            <!-- <div class="select">
-                              <select value="{{ platform.steamdeck_platform_name }}">
-                                <option>psx</option>
-                                <option>ps2</option>
-                              </select>
-                            </div> -->
-                            <input type="text" hidden name="romm_platform_id" value="{{ platform.romm_platform_id }}">
-                            <input class="input input-field" type="text" name="steamdeck_platform_name" placeholder="steamdeck-platform" value="{{ platform.steamdeck_platform_name }}">
-                          </td>
-                          <td>
-                            <button class="button is-primary" type="submit">
-                              Save
-                            </button>
-                          </td>
-                        </tr>                        
-                        </form>
-                        {% endfor %}                        
-                      </tbody>
-                    </table>                         
-                  </div>
-                </div>                                           
-
-                <!-- ALT -->                
-                <!-- {% for key, value in config.items() %}
-                <div class="field">
-                    <label class="label">{{ key }}</label>
-                    <div class="control">
-                        <input class="input" type="text" name="{{ key }}" value="{{ value }}">
-                    </div>
-                </div>
-                {% endfor %}
-                <div class="control">
-                    <button class="button is-primary" type="submit">Speichern</button>
-                </div> -->            
+                    </td>
+                  </tr>                        
+                  </form>
+                  {% endfor %}                        
+                </tbody>
+              </table>                         
+            </div>
+          </div> 
+          <div class="grid">
+            <div class="cell">
+              <button class="button is-link is-medium btn-back" onclick="btn_back('menu_romMAPI', 'content_romMAPI')">Back</button>
+            </div>
+            <div class="cell"></div>
+            <div class="cell">
+              <button class="button is-link is-medium btn-next" onclick="btn_next('menu_collection_sync', 'content_collection_sync')">Next</button>
+            </div>
+          </div>  
         </div>
+
+        <div id="content_collection_sync" class="container content collapse">
+          <h1 class="title">Collection Sync Settings</h1>
+          <div class="notification is-info">            
+            <h2 class="has-text-black">In this Section you can activate the syncronisation of your RomM Collection </h2>
+            Simple activate the Checkbox of the Collections you want to sync and press save!<br>
+            After that go back to the Status Page to view the syncronisation status.            
+          </div>
+          <div class="card has-background-dark">                  
+            <div class="card-content">
+              <!-- <p class="title">Sync Collections</p> -->
+              <form method="post" action="{{ url_for('config_collection_sync_settings') }}">
+              <div class="field">                    
+                <div class="list has-hoverable-list-items">
+                    {% for collection in collections %}
+                    <div class="list-item">     
+                        <input type="text" hidden name="collections_id" value="{{ collection.collections_id }}">       
+                        <input class="checkbox" type="checkbox" name="collection_sync_{{ collection.collections_id }}" value="{{ collection.collection_sync }}" {% if collection.collection_sync %}checked{% endif %} />            
+                        <div class="list-item-content">                                
+                            <div class="list-item-title">{{ collection.name }}</div>
+                            <div class="list-item-description"></div>
+                        </div>                            
+                    </div> 
+                    {% endfor %}                           
+                </div>
+              </div>
+              
+              <div class="control">
+                <button class="button is-primary" type="submit">
+                  Save
+                </button>
+              </div>
+              </form>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="cell">
+              <button class="button is-link is-medium btn-back" onclick="btn_back('menu_platform_matching', 'content_platform_matching')">Back</button>
+            </div>
+            <div class="cell"></div>
+            <div class="cell">
+              <a class="button is-primary is-medium btn-next" href="/">Go to Status Page</a>
+            </div>
+          </div> 
+        </div>
+        <!-- TEST ENDE -->
+        
     </section>
+
+    <script>  
+
+      document.addEventListener("DOMContentLoaded", function() {
+        console.log("DOM ist vollständig geladen!");
+        let element = document.getElementById("menu_romMAPI");        
+        document.getElementById("content_romMAPI").classList.remove('collapse');  
+      });
+      
+      function btn_back(back_menu, back_content) {
+        console.log(back_menu, back_content);
+        // remove active on every menu
+        document.querySelectorAll('.config-menu').forEach(el => el.classList.remove('is-active'));
+
+        // activate next Menu
+        document.getElementById(back_menu).classList.toggle("is-active");
+
+        // Content disable
+        // document.querySelectorAll('.content').forEach(el => el.classList.add('collapse'));
+        document.getElementById("content_romMAPI").classList.add('collapse');  
+        document.getElementById("content_description").classList.add('collapse');               
+        document.getElementById("content_platform_matching").classList.add('collapse');  
+        document.getElementById("content_collection_sync").classList.add('collapse');  
+
+        // enable Content
+        document.getElementById(back_content).classList.remove('collapse');  
+      }
+
+      function btn_next(next_menu, next_content) {
+        console.log(next_menu, next_content);
+        // remove active on every menu
+        document.querySelectorAll('.config-menu').forEach(el => el.classList.remove('is-active'));
+
+        // activate next Menu
+        document.getElementById(next_menu).classList.toggle("is-active");
+
+        // Content disable
+        // document.querySelectorAll('.content').forEach(el => el.classList.add('collapse'));
+        document.getElementById("content_romMAPI").classList.add('collapse');  
+        document.getElementById("content_description").classList.add('collapse');               
+        document.getElementById("content_platform_matching").classList.add('collapse');  
+        document.getElementById("content_collection_sync").classList.add('collapse');  
+
+        // enable Content
+        document.getElementById(next_content).classList.remove('collapse');  
+      }
+
+      function menuAction(menu) {
+        // alert("Click: " + menu);
+
+        // remove active on every menu
+        document.querySelectorAll('.config-menu').forEach(el => el.classList.remove('is-active'));
+
+        // Das aktuelle Element holen
+        let element = document.getElementById(menu);
+        element.classList.toggle("is-active");        
+
+        // Content disable
+        // document.querySelectorAll('.content').forEach(el => el.classList.add('collapse'));
+        document.getElementById("content_romMAPI").classList.add('collapse');  
+        document.getElementById("content_description").classList.add('collapse');               
+        document.getElementById("content_platform_matching").classList.add('collapse');  
+        document.getElementById("content_collection_sync").classList.add('collapse');     
+
+        // Content einblenden
+        if (menu == 'menu_romMAPI') {
+          document.getElementById("content_romMAPI").classList.remove('collapse');          
+        } else if (menu == 'menu_description') {
+          document.getElementById("content_description").classList.remove('collapse');               
+        } else if (menu == 'menu_platform_matching') {
+          document.getElementById("content_platform_matching").classList.remove('collapse');          
+        } else if (menu == 'menu_collection_sync') {
+          document.getElementById("content_collection_sync").classList.remove('collapse');              
+        }
+      }
+    </script>
 {% endblock content %}
