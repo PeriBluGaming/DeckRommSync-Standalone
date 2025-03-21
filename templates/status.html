@@ -13,6 +13,12 @@
             </div>
         </div>
     </section> -->
+
+    <div id="notification-box" class="notification notification-runner" onclick="notification_clicked()">        
+        <strong id="scheduler-status"></strong><br>
+        (Click to Start/Stopp)
+    </div>
+
     <section class="section">
         <div class="container">
             <h2 class="title">Collections</h2>
@@ -87,6 +93,44 @@
     </section>
 
     <script>
+
+        function checkSchedulerStatus() {
+            fetch('/scheduler-status')
+                .then(response => response.json())
+                .then(data => {
+                    let notificationBox =document.getElementById('notification-box');
+                    let statusElement = document.getElementById('scheduler-status');
+                    
+                    console.log(data.running);
+                    if (data.running) {
+                        statusElement.innerHTML = "Background Worker running";
+                        // statusElement.style.color = "green";
+                        notificationBox.classList.remove('is-danger');
+                        notificationBox.classList.add('is-primary');
+                    } else {
+                        statusElement.innerHTML = "Background Worker stopped";
+                        // statusElement.style.color = "red";
+                        notificationBox.classList.remove('is-primary');
+                        notificationBox.classList.add('is-danger');
+                    }
+                })
+                .catch(error => console.error('Fehler beim Abrufen des Scheduler-Status:', error));
+        }        
+
+        setInterval(checkSchedulerStatus, 5000);  // Alle 5 Sekunden aktualisieren
+        window.onload = checkSchedulerStatus; // Beim Laden der Seite Status checken
+
+        // Notification click Methode
+        function notification_clicked() {            
+            fetch('/scheduler-click')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    checkSchedulerStatus();
+                })
+                .catch(error => console.error('Fehler beim Abrufen des Scheduler-Status:', error));
+        }
+
         // Alle divs mit der Klasse "box" selektieren
         document.querySelectorAll(".collection-content").forEach(div => {            
             div.addEventListener("click", function() {
@@ -129,6 +173,6 @@
             .catch(error => {
                 console.error("Fehler:", error);
             });
-        }
+        }        
     </script>
 {% endblock content %}

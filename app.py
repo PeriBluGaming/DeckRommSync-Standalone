@@ -28,6 +28,9 @@ def run_background_task():
     background_logger.info("Background Task finished...")
 
 
+# Scheduler starten
+scheduler = BackgroundScheduler()
+
 # System-Logger einrichten
 system_logger = logging.getLogger("system_logger")
 system_logger.setLevel(logging.INFO)
@@ -168,15 +171,32 @@ def log():
     
     return render_template('log.html', log_groups=log_content)
 
+@app.route('/scheduler-status', methods=['GET'])
+def scheduler_status():
+    return jsonify({"running": scheduler.running})
+
+@app.route('/scheduler-click', methods=['GET'])
+def scheduler_click():
+    running = True
+    if (scheduler.running):
+        # scheduler.shutdown()
+        scheduler.pause()
+        running = False
+    else:        
+        # scheduler.add_job(run_background_task, "interval", minutes=1)  # Alle 2 Minuten
+        # scheduler.start()
+        scheduler.resume()
+        running = True    
+
+    return jsonify({"running": running, "shedular": scheduler.running})
+
 if __name__ == '__main__':    
     system_logger.info("Flask-App started...")
     # Config
     global app_config
     app_config = load_json_config()  
 
-    # DEBUG
-    # Scheduler starten
-    scheduler = BackgroundScheduler()
+    # DEBUG    
     scheduler.add_job(run_background_task, "interval", minutes=1)  # Alle 2 Minuten
     scheduler.start()  
 
