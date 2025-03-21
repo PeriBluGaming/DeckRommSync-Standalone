@@ -5,3 +5,4 @@ test.py
 tests/*
 output/*
 TEST_background_worker.log
+deckrommsync.db
