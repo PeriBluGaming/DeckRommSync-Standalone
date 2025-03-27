@@ -1,6 +1,6 @@
 # DeckRommSync - Standalone
 DeckRomMSync - Standalone is a project that automatically synchronizes your ROMs from [RomM](https://github.com/rommapp/romm) to your Steam Deck. 
-The games are automatically copied to the correct directory. Retrodeck is required!
+The games are automatically copied to the correct directory. [Retrodeck](https://retrodeck.net/) is required!
 ![DeckRomMSync](/docs/deckrommsync.png)
 
 ## Installation
